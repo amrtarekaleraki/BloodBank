@@ -26,6 +26,21 @@ class Client extends Model
         return $this->belongsToMany('App\Models\Post');
     }
 
+    public function notifications()
+    {
+        return $this->belongsToMany('App\Models\Notification');
+    }
+
+    public function requests()
+    {
+        return $this->hasMany('App\Models\DonationRequest');
+    }
+
+    public function tokens()
+    {
+        return $this->hasMany('App\Models\Token');
+    }
+
     public function governorate()
     {
         return $this->belongsToMany('App\Models\Governorate');

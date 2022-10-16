@@ -21,6 +21,7 @@ class CreateClientsTable extends Migration {
 			$table->integer('city_id')->unsigned();
 			$table->boolean('is_active')->default(1);
             $table->string('api_token',60)->unique()->nullable();
+            // $table->integer('donation_request_id')->unsigned();
 		});
 	}
 

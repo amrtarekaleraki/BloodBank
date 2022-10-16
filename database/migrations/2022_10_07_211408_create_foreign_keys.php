@@ -18,6 +18,11 @@ class CreateForeignKeys extends Migration {
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
+        // Schema::table('clients', function(Blueprint $table) {
+		// 	$table->foreign('donation_request_id')->references('id')->on('donation_requests')
+		// 				->onDelete('no action')
+		// 				->onUpdate('no action');
+		// });
 		Schema::table('cities', function(Blueprint $table) {
 			$table->foreign('governorate_id')->references('id')->on('governorates')
 						->onDelete('cascade')
@@ -88,6 +93,11 @@ class CreateForeignKeys extends Migration {
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
+        // Schema::table('tokens', function(Blueprint $table) {
+		// 	$table->foreign('client_id')->references('id')->on('clients')
+		// 				->onDelete('cascade')
+		// 				->onUpdate('no action');
+		// });
 	}
 
 	public function down()
@@ -97,6 +107,9 @@ class CreateForeignKeys extends Migration {
 		});
 		Schema::table('clients', function(Blueprint $table) {
 			$table->dropForeign('clients_city_id_foreign');
+		});
+        Schema::table('clients', function(Blueprint $table) {
+			$table->dropForeign('clients_donation_request_id_foreign');
 		});
 		Schema::table('cities', function(Blueprint $table) {
 			$table->dropForeign('cities_governorate_id_foreign');
@@ -140,5 +153,8 @@ class CreateForeignKeys extends Migration {
 		Schema::table('client_notification', function(Blueprint $table) {
 			$table->dropForeign('client_notification_notification_id_foreign');
 		});
+        // Schema::table('tokens', function(Blueprint $table) {
+		// 	$table->dropForeign('tokens_client_id_foreign');
+		// });
 	}
 }

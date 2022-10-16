@@ -29,7 +29,7 @@ Route::prefix('v1')->group(function () {
     Route::get('cities', [MainController::class, 'cities']);
     Route::get('categories', [MainController::class, 'categories']);
     Route::get('settings', [MainController::class, 'settings']);
-    Route::get('contacts', [MainController::class, 'contacts']);
+    Route::post('contacts', [MainController::class, 'contacts']);
     Route::get('bloodTypes', [MainController::class, 'bloodTypes']);
     Route::get('favourites', [MainController::class, 'favourites']);
 
@@ -41,8 +41,15 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:api')->group(function () {
 
-        Route::get('posts', [MainController::class, 'posts']);
         Route::post('profile', [MainController::class, 'profile']);
+
+        Route::get('posts', [MainController::class, 'posts']);
+        Route::get('post', [MainController::class, 'post']);
+        Route::post('postfavourites', [MainController::class, 'postfavourites']);
+        Route::get('myfavourites', [MainController::class, 'myfavourites']);
+        Route::post('createdonationRequest', [MainController::class, 'createdonationRequest']);
+        Route::post('NotificationSettings', [MainController::class, 'NotificationSettings']);
+
 
     });
 
