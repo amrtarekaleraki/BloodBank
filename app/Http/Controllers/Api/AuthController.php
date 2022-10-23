@@ -38,7 +38,6 @@ class AuthController extends Controller
           'd_o_b' => 'required',
           'last_donation_date' => 'required',
           'city_id' => 'required',
-        //   'donation_request_id' => 'required',
        ]);
 
        if($validator->fails())
@@ -50,9 +49,8 @@ class AuthController extends Controller
        $client = Client::create($request->all());
        $client->api_token = Str::random(60);
        $client->save();
-       $client->governorate()->attach($request->city_id);
-       $bloodType = BloodType::where('name',$request->blood_types)->first();
-       $client->bloodType()->attach($bloodType->id);
+       $client->governorate()->attach($client->city->governorate_id);
+       $client->bloodType()->attach($request->blood_type_id);
 
        return responsejson(1,'client added successfuly',[
         'api_token' => $client->api_token,

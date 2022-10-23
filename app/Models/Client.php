@@ -46,9 +46,9 @@ class Client extends Model
         return $this->belongsToMany('App\Models\Governorate');
     }
 
-    public function clientblood()
+    public function clientBloods()
     {
-        return $this->hasMany('App\Models\BloodType');
+        return $this->belongsTo('App\Models\BloodType');
     }
 
     protected $hidden = [

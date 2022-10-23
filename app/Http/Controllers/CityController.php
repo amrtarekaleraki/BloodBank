@@ -1,86 +1,77 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CityController extends Controller 
+use App\Models\City;
+use App\Models\Governorate;
+
+
+
+class CityController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return Response
-   */
+
   public function index()
   {
-    
+    $cities = City::paginate(20);
+    return view('cities.index',compact('cities'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
+
   public function create()
   {
-    
+    return view('cities.create')->with('governorates',Governorate::get());
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
+
   public function store(Request $request)
   {
-    
+    $rules = [
+        'name' => 'required'
+      ];
+      $messages = [
+        'name.required' => 'Name is Required'
+      ];
+      $this->validate($request,$rules,$messages);
+
+      $city = City::create($request->all());
+
+      return redirect(route('city.index'))->with('success', 'City Added Successfully');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function show($id)
   {
-    
+
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function edit($id)
   {
-    
+    $governorates = Governorate::all();
+    $model = City::findOrFail($id);
+    return view('cities.edit',compact('model','governorates'));
+    // ->with('governorates',Governorate::get())
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function update($id)
+
+  public function update(Request $request,$id)
   {
-    
+    $record = City::findOrFail($id);
+    $record->update($request->all());
+    return redirect(route("city.index"))->with('success', 'City Updated Successfully');
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function destroy($id)
   {
-    
+    $city = City::findOrFail($id);
+    $city->delete();
+    return redirect(route('city.index'))->with('danger', 'City Deleted Successfully');
   }
-  
+
 }
 
 ?>

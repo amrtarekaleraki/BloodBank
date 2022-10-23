@@ -294,8 +294,8 @@ class MainController extends Controller
         $clientbloodtypes = $request->user()->clientblood;
         $clientgovernorates = $request->user()->governorate;
         return responsejson(1,'notifcation settings',[
-            'clientbloodtypes' => $clientbloodtypes,
-            'clientgovernorates' => $clientgovernorates
+            'client_blood_types' => $clientbloodtypes,
+            'client_governorates' => $clientgovernorates
         ]);
     }
 
@@ -314,8 +314,8 @@ class MainController extends Controller
          return responsejson(0,$validator->errors()->first(),$validator->errors());
         }
 
-        $clientbloodtypes = $request->blood_types;
-        $clientgovernorates = $request->governorates;
+        $clientbloodtypes = $request->user()->bloodType()->sync($request->blood_types);
+        $clientgovernorates = $request->user()->governorate()->sync($request->governorates);
         return responsejson(1,'notifcation settings',[
             'clientbloodtypes' => $clientbloodtypes,
             'clientgovernorates' => $clientgovernorates

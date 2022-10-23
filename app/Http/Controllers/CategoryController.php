@@ -1,86 +1,73 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller 
+use App\Models\Category;
+
+
+class CategoryController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return Response
-   */
+
   public function index()
   {
-    
+    $categories = Category::all();
+    return view('categories.index',compact('categories'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
+
   public function create()
   {
-    
+    return view('categories.create');
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
+
   public function store(Request $request)
   {
-    
+    $rules = [
+        'name' => 'required'
+      ];
+      $messages = [
+        'name.required' => 'Name is Required'
+      ];
+      $this->validate($request,$rules,$messages);
+
+      $city = Category::create($request->all());
+
+      return redirect(route('category.index'))->with('success', 'Category Added Successfully');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function show($id)
   {
-    
+
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function edit($id)
   {
-    
+    $model = Category::findOrFail($id);
+    return view('categories.edit',compact('model'));
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function update($id)
+
+  public function update(Request $request,$id)
   {
-    
+    $record = Category::findOrFail($id);
+    $record->update($request->all());
+    return redirect(route("category.index"))->with('success', 'Category Updated Successfully');
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function destroy($id)
   {
-    
+    $city = Category::findOrFail($id);
+    $city->delete();
+    return redirect(route('category.index'))->with('danger', 'category Deleted Successfully');
   }
-  
+
 }
 
 ?>

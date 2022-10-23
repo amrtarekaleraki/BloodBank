@@ -33,6 +33,11 @@ Route::get('/', function () {
 
 
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+
 
 
 Route::resource('client', ClientController::class);
@@ -45,3 +50,11 @@ Route::resource('donationrequest', DonationRequestController::class);
 Route::resource('notification', NotificationController::class);
 Route::resource('setting', SettingController::class);
 Route::resource('contact', ContactController::class);
+
+
+
+
+
+
+
+

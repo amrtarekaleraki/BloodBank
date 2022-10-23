@@ -1,86 +1,72 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PostController extends Controller 
+use App\Models\Post;
+use App\Models\Category;
+
+class PostController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return Response
-   */
+
   public function index()
   {
-    
+    $posts = Post::paginate(20);
+    return view('posts.index',compact('posts'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
+
   public function create()
   {
-    
+    return view('posts.create')->with('categories',Category::get());
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
   public function store(Request $request)
   {
-    
+    $rules = [
+        'title' => 'required'
+      ];
+      $messages = [
+        'title.required' => 'Name is Required'
+      ];
+      $this->validate($request,$rules,$messages);
+
+      $city = Post::create($request->all());
+
+      return redirect(route('post.index'))->with('success', 'Post Added Successfully');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function show($id)
   {
-    
+
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function edit($id)
   {
-    
+    $categories = Category::all();
+    $model = Post::findOrFail($id);
+    return view('posts.edit',compact('model','categories'));
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function update($id)
+
+  public function update(Request $request,$id)
   {
-    
+    $record = Post::findOrFail($id);
+    $record->update($request->all());
+    return redirect(route("psot.index"))->with('success', 'Post Updated Successfully');
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
   public function destroy($id)
   {
-    
+    $post = Post::findOrFail($id);
+    $post->delete();
+    return redirect(route('post.index'))->with('danger', 'Post Deleted Successfully');
   }
-  
+
 }
 
 ?>
