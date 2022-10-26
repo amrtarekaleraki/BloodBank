@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
 
+use Illuminate\Support\Facades\File;
+
+
 class PostController extends Controller
 {
 
@@ -25,17 +28,36 @@ class PostController extends Controller
 
   public function store(Request $request)
   {
+
+
+
     $rules = [
-        'title' => 'required'
+        'title' => 'required',
+        'content' => 'required',
       ];
       $messages = [
-        'title.required' => 'Name is Required'
+        'title.required' => 'Title is Required',
+        'content.required' => 'Content is Required',
       ];
       $this->validate($request,$rules,$messages);
 
-      $city = Post::create($request->all());
+    //   $city = Post::create($request->all());
+        $post =  new Post;
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->category_id = $request->category_id;
+        if($request->hasfile('image'))
+        {
+            $file = $request->image;
+            $file_extension = $file->getClientOriginalExtension();
+            $file_name = time().'.'.$file_extension;
+            $path = 'images/posts';
+            $file->move($path,$file_name);
+            $post->image = $file_name;
+        }
+        $post->save();
 
-      return redirect(route('post.index'))->with('success', 'Post Added Successfully');
+        return redirect(route('post.index'))->with('success', 'Post Added Successfully');
   }
 
 
@@ -55,14 +77,36 @@ class PostController extends Controller
 
   public function update(Request $request,$id)
   {
-    $record = Post::findOrFail($id);
-    $record->update($request->all());
-    return redirect(route("psot.index"))->with('success', 'Post Updated Successfully');
+        $post =  Post::findOrFail($id);
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->category_id = $request->category_id;
+        if($request->hasfile('image'))
+        {
+            $destination = 'images/posts/'.$post->image;
+            if(File::exists($destination))
+            {
+                File::delete($destination);
+            }
+            $file = $request->image;
+            $file_extension = $file->getClientOriginalExtension();
+            $file_name = time().'.'.$file_extension;
+            $path = 'images/posts/';
+            $file->move($path,$file_name);
+            $post->image = $file_name;
+        }
+        $post->update();
+        return redirect(route("post.index"))->with('success', 'Post Updated Successfully');
   }
 
   public function destroy($id)
   {
     $post = Post::findOrFail($id);
+    $destination = 'images/posts/'.$post->image;
+    if(File::exists($destination))
+    {
+        File::delete($destination);
+    }
     $post->delete();
     return redirect(route('post.index'))->with('danger', 'Post Deleted Successfully');
   }

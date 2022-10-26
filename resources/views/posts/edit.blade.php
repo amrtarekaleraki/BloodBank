@@ -33,10 +33,13 @@
         {!! Form::model($model,[
 
             'action' => ['App\Http\Controllers\PostController@update',$model->id],
-            'method' => 'put'
+            'method' => 'put',
+            'files' => true
             ])!!}
 
         @include('partials.validation_errors')
+
+
 
         @include('posts.form')
 

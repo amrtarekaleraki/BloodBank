@@ -4,83 +4,71 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-// use App\Models\BloodType;
+use App\Models\Client;
+use App\Models\BloodType;
+use App\Models\City;
 
 class ClientController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return Response
-   */
+
   public function index()
   {
-
+    $clients = Client::paginate(20);
+    return view('clients.index',compact('clients'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
+
   public function create()
   {
-
+    return view('clients.create')->with('bloodtype',BloodType::get())->with('cities',City::get());
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
   public function store(Request $request)
   {
+    $rules = [
+        'email' => 'required',
+        'password' => 'required',
+      ];
+      $messages = [
+        'email.required' => 'email is Required',
+        'password.required' => 'password is Required',
+      ];
+      $this->validate($request,$rules,$messages);
 
+        $client = Client::create($request->all());
+        return redirect(route('client.index'))->with('success', 'Client Added Successfully');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function show($id)
   {
 
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function edit($id)
   {
-
+    $bloodtype = BloodType::all();
+    $cities = City::all();
+    $model = Client::findOrFail($id);
+    return view('clients.edit',compact('model','bloodtype','cities'));
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function update($id)
+
+  public function update(Request $request,$id)
   {
-
+    $record = Client::findOrFail($id);
+    $record->update($request->all());
+    return redirect(route("client.index"))->with('success', 'Client Updated Successfully');
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function destroy($id)
   {
-
+    $client = Client::findOrFail($id);
+    $client->delete();
+    return redirect(route('client.index'))->with('danger', 'client Deleted Successfully');
   }
 
 }

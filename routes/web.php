@@ -12,6 +12,7 @@ use App\Http\Controllers\DonationRequestController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -41,6 +42,7 @@ Auth::routes();
 
 
 Route::resource('client', ClientController::class);
+Route::resource('user', UserController::class);
 Route::resource('bloodtype', BloodTypeController::class);
 Route::resource('city', CityController::class);
 Route::resource('governorate', GovernorateController::class);

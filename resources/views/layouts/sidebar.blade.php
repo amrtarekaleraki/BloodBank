@@ -35,6 +35,15 @@
               </li>
 
               <li class="nav-item">
+                <a href="{{route('bloodtype.index')}}" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        BloodTypes
+                    </p>
+                    </a>
+                </li>
+
+              <li class="nav-item">
                   <a href="{{route('city.index')}}" class="nav-link">
                       <i class="nav-icon fas fa-tachometer-alt"></i>
                       <p>
@@ -55,17 +64,55 @@
 
                   <li class="nav-item">
                       <a href="{{route('post.index')}}" class="nav-link">
-                          <i class="nav-icon fas fa-tachometer-alt"></i>
+                          <i class="nav-icon fas fa-book"></i>
                           <p>
                               Posts
                           </p>
                           </a>
                       </li>
 
+                      <li class="nav-item">
+                        <a href="{{route('client.index')}}" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                Clients
+                            </p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="{{route('donationrequest.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Donation Requests
+                                </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{route('contact.index')}}" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Contacts
+                                    </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('user.index')}}" class="nav-link">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>
+                                            users
+                                        </p>
+                                        </a>
+                                    </li>
 
 
 
-            <li class="nav-item">
+
+
+            {{-- <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
@@ -81,7 +128,7 @@
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> --}}
 
           </ul>
         </nav>

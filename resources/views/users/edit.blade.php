@@ -2,16 +2,14 @@
 
 @include('layouts.sidebar')
 
-@inject('model','App\Models\Post')
-
 @section('content')
 
 @section('title')
-    categories
+    users
 @endsection
 
 @section('small_title')
-    create
+    edit
 @endsection
 
   <!-- Main content -->
@@ -20,7 +18,7 @@
     <!-- Default box -->
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">create Posts</h3>
+        <h3 class="card-title">edit users</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -34,13 +32,13 @@
       <div class="card-body">
         {!! Form::model($model,[
 
-            'action' => 'App\Http\Controllers\PostController@store',
-            'files' => true
+            'action' => ['App\Http\Controllers\UserController@update',$model->id],
+            'method' => 'put'
             ])!!}
 
         @include('partials.validation_errors')
 
-        @include('posts.form')
+        @include('users.form')
 
         {!! Form::close() !!}
     </div>

@@ -7,7 +7,7 @@
 @section('content')
 
 @section('title')
-posts
+donations
 @endsection
 
 @section('small_title')
@@ -20,7 +20,7 @@ posts
     <!-- Default box -->
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">list of posts</h3>
+        <h3 class="card-title">list of donations</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -33,7 +33,7 @@ posts
       </div>
       <div class="card-body">
 
-        <a href="{{route('post.create')}}" class="btn btn-primary">Add New</a>
+        <a href="{{route('donationrequest.create')}}" class="btn btn-primary">Add New</a>
                 @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
@@ -46,33 +46,35 @@ posts
                     </div>
                 @endif
 
-                @if (count($posts))
+                @if (count($donations))
                       <div class="table-responsive">
                             <table class="table table-bordered">
                                   <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>title</th>
-                                        <th>content</th>
-                                        <th>image</th>
-                                        <th>category</th>
+                                        <th>patient_name</th>
+                                        <th>patient_phone</th>
+                                        <th>bloodType</th>
+                                        <th>bags_num</th>
+                                        <th>hospital_address</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      @foreach ($posts as $post)
+                                      @foreach ($donations as $donate)
                                            <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$post->title}}</td>
-                                            <td>{{$post->content}}</td>
-                                            <td><img src="{{asset('images/posts/'.$post->image)}}" width="50px" height="50px"></td>
-                                            <td>{{$post->category->name}}</td>
-                                            <td><a href="{{route('post.edit',$post->id)}}" class="btn btn-success"> <i class="fa fa-edit"></i></a></td>
+                                            <td>{{$donate->patient_name}}</td>
+                                            <td>{{$donate->patient_phone}}</td>
+                                            <td>{{$donate->bloodType->name}}</td>
+                                            <td>{{$donate->bags_num}}</td>
+                                            <td>{{$donate->hospital_address}}</td>
+                                            <td><a href="{{route('donationrequest.edit',$donate->id)}}" class="btn btn-success"> <i class="fa fa-edit"></i></a></td>
                                             <td>
                                                 {!! Form::open([
 
-                                                    'action' => ['App\Http\Controllers\PostController@destroy',$post->id],
+                                                    'action' => ['App\Http\Controllers\DonationRequestController@destroy',$donate->id],
                                                     'method' => 'delete'
                                                     ])!!}
 
